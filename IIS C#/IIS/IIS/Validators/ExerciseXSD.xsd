@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="root">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="row">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Force" type="forceType" />
+							<xs:element name="Name" type="xs:string" />
+							<xs:element name="SecondaryMuscles" type="xs:string" />
+							<xs:element name="Type" type="types" />
+							<xs:element maxOccurs="unbounded" name="Primary_Muscles" type="xs:string" />
+							<xs:element name="Workout_Type" type="workoutType" />
+							<xs:element name="Youtube_link" type="xs:string" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="forceType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Push" />
+			<xs:enumeration value="Pull" />
+			<xs:enumeration value="Both" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="types">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Compound" />
+			<xs:enumeration value="Isolation" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="workoutType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Cardio" />
+			<xs:enumeration value="Olympic lifitng" />
+			<xs:enumeration value="Plyometric" />
+			<xs:enumeration value="Powerlifting" />
+			<xs:enumeration value="Strength" />
+			<xs:enumeration value="Stretch" />
+			<xs:enumeration value="Strongman" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
