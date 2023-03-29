@@ -1,0 +1,59 @@
+<rng:grammar xmlns:rng="http://relaxng.org/ns/structure/1.0" xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0" ns="" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+	<rng:start combine="choice">
+		<rng:ref name="root"/>
+	</rng:start>
+	<rng:define name="root">
+		<rng:element name="root">
+			<rng:element name="row">
+				<rng:element name="Force">
+					<rng:ref name="forceType"/>
+				</rng:element>
+				<rng:element name="Name">
+					<rng:data type="string"/>
+				</rng:element>
+				<rng:element name="SecondaryMuscles">
+					<rng:data type="string"/>
+				</rng:element>
+				<rng:element name="Type">
+					<rng:ref name="types"/>
+				</rng:element>
+				<rng:oneOrMore>
+					<rng:element name="Primary_Muscles">
+						<rng:data type="string"/>
+					</rng:element>
+				</rng:oneOrMore>
+				<rng:element name="Workout_Type">
+					<rng:ref name="workoutType"/>
+				</rng:element>
+				<rng:element name="Youtube_link">
+					<rng:data type="string"/>
+				</rng:element>
+			</rng:element>
+		</rng:element>
+	</rng:define>
+
+	<rng:define name="forceType">
+		<rng:choice>
+			<rng:value>Push</rng:value>
+			<rng:value>Pull</rng:value>
+			<rng:value>Both</rng:value>
+		</rng:choice>
+	</rng:define>
+	<rng:define name="types">
+		<rng:choice>
+			<rng:value>Compound</rng:value>
+			<rng:value>Isolation</rng:value>
+		</rng:choice>
+	</rng:define>
+	<rng:define name="workoutType">
+		<rng:choice>
+			<rng:value>Cardio</rng:value>
+			<rng:value>Olympic lifitng</rng:value>
+			<rng:value>Plyometric</rng:value>
+			<rng:value>Powerlifting</rng:value>
+			<rng:value>Strength</rng:value>
+			<rng:value>Stretch</rng:value>
+			<rng:value>Strongman</rng:value>
+		</rng:choice>
+	</rng:define>
+</rng:grammar>
