@@ -2,11 +2,10 @@
 using IIS.Models;
 using IIS.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
-using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace IIS.Controllers
 {
@@ -19,7 +18,9 @@ namespace IIS.Controllers
         public ExerciseController()
         {
             exercises = new List<Exercise>();
+            loadExercises();
         }
+
 
         [HttpPost("xsd")]
         public async Task<IActionResult> xsd(IFormFile file)
@@ -60,9 +61,22 @@ namespace IIS.Controllers
                 return BadRequest("Error when deserialzing the object.");
 
             exercises.Add(root.Exercise);
+            saveExercises();
+
 
             return Ok(root.Exercise);
 
+        }
+
+        private void saveExercises()
+        {
+            XmlSerializer serialiser = new XmlSerializer(typeof(List<Exercise>));
+
+            TextWriter filestream = new StreamWriter(@"C:\temp\exercises.xml");
+
+            serialiser.Serialize(filestream, exercises);
+
+            filestream.Close();
         }
 
         [HttpPost("rng")]
@@ -107,8 +121,27 @@ namespace IIS.Controllers
                 return BadRequest("Error when deserialzing the object.");
 
             exercises.Add(root.Exercise);
+            saveExercises();
 
             return Ok(root.Exercise);
+        }
+
+
+        private void loadExercises()
+        {
+            using (var reader = new StreamReader(@"C:\temp\exercises.xml"))
+            {
+                if (String.IsNullOrEmpty(reader.ReadToEnd()))
+                    return;
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Exercise>));
+                
+                var savedExercises = (List<Exercise>)serializer.Deserialize(reader);
+                
+                if (savedExercises == null)
+                    return;
+
+                savedExercises.ForEach(e => exercises.Add(e));
+            }
         }
     }
 }
