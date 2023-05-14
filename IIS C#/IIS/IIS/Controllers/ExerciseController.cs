@@ -129,18 +129,25 @@ namespace IIS.Controllers
 
         private void loadExercises()
         {
-            using (var reader = new StreamReader(@"C:\temp\exercises.xml"))
+            try
             {
-                if (String.IsNullOrEmpty(reader.ReadToEnd()))
-                    return;
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Exercise>));
-                
-                var savedExercises = (List<Exercise>)serializer.Deserialize(reader);
-                
-                if (savedExercises == null)
-                    return;
+                using (var reader = new StreamReader(@"C:\temp\exercises.xml"))
+                {
+                    if (String.IsNullOrEmpty(reader.ReadToEnd()))
+                        return;
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Exercise>));
 
-                savedExercises.ForEach(e => exercises.Add(e));
+                    var savedExercises = (List<Exercise>)serializer.Deserialize(reader);
+
+                    if (savedExercises == null)
+                        return;
+
+                    savedExercises.ForEach(e => exercises.Add(e));
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
     }
